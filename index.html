@@ -434,7 +434,7 @@ const DrivingSuccessReport = () => {
 
       {/* Footer */}
       <div className="text-center text-gray-500 text-sm border-t pt-4">
-        <p>Immigrant Development Center | 810 4th Ave S Ste 100, Moorhead, MN 56560</p>
+        <p>Immigrant Development Center | 725 Center Ave Ste 1, Moorhead, MN 56560</p>
         <p>contact@immigrantdevelopmentcenter.org | (218) 284-8020</p>
       </div>
     </div>
