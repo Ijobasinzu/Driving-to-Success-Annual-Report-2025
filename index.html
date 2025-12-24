@@ -1,444 +1,753 @@
-import React from 'react';
-import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-const DrivingSuccessReport = () => {
-  const demographicData = [
-    { name: 'Female', value: 32 },
-    { name: 'Male', value: 18 }
-  ];
-
-  const ageData = [
-    { range: '16-25', count: 8 },
-    { range: '26-35', count: 18 },
-    { range: '36-45', count: 16 },
-    { range: '46-55', count: 5 },
-    { range: '56+', count: 3 }
-  ];
-
-  const languageData = [
-    { language: 'Somali', count: 12 },
-    { language: 'Arabic', count: 10 },
-    { language: 'Swahili', count: 8 },
-    { language: 'English', count: 8 },
-    { language: 'Dari', count: 5 },
-    { language: 'Other', count: 7 }
-  ];
-
-  const locationData = [
-    { city: 'Fargo', count: 32 },
-    { city: 'Moorhead', count: 13 },
-    { city: 'West Fargo', count: 5 }
-  ];
-
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
-
-  return (
-    <div className="max-w-6xl mx-auto p-8 bg-white">
-      {/* Header */}
-      <div className="mb-8 border-b-4 border-blue-600 pb-4">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">Driving to Success</h1>
-        <h2 className="text-2xl text-gray-600">2025 Annual Program Report</h2>
-        <p className="text-lg text-gray-500 mt-2">Immigrant Development Center</p>
-      </div>
-
-      {/* Executive Summary */}
-      <section className="mb-8 bg-blue-50 p-6 rounded-lg">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Executive Summary</h3>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          The 2025 Driving to Success program achieved remarkable outcomes in addressing transportation barriers 
-          for New Americans in the Fargo-Moorhead region. With generous support from Sanford Health's $12,000 
-          investment, the program focused exclusively on behind-the-wheel instruction, the most critical and 
-          cost-prohibitive barrier to licensing. We successfully served 33 participants through three cohorts, 
-          while approximately 20 individuals who completed intake remain on the waitlist for 2026 services.
-        </p>
-        <div className="grid grid-cols-4 gap-4 mt-6">
-          <div className="bg-white p-4 rounded-lg shadow text-center">
-            <div className="text-3xl font-bold text-blue-600">50+</div>
-            <div className="text-sm text-gray-600">Inquiries Received</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
-            <div className="text-3xl font-bold text-green-600">33</div>
-            <div className="text-sm text-gray-600">Completed Training</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
-            <div className="text-3xl font-bold text-purple-600">75%</div>
-            <div className="text-sm text-gray-600">Success Rate</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
-            <div className="text-3xl font-bold text-orange-600">~20</div>
-            <div className="text-sm text-gray-600">On Waitlist</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Program Overview */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Overview</h3>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          The Driving to Success program addresses one of the most significant barriers to economic self-sufficiency 
-          for immigrant communities: transportation. In 2025, the program focused exclusively on behind-the-wheel 
-          instruction, the most expensive and difficult-to-access component of driver training. Operating three cohorts 
-          throughout the year, we partnered with Xcell Driving School to provide professional instruction with 
-          multilingual support.
-        </p>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          Each participant received 6 hours of professional behind-the-wheel instruction at the full market rate of 
-          $395 per person, with Sanford Health's funding covering this critical expense. IDC supplemented the program 
-          with administrative support, interpreter services, and coordination costs from organizational resources.
-        </p>
-        <p className="text-gray-700 leading-relaxed">
-          The program received over 50 online inquiries through our intake system, with 33 participants completing 
-          training through scheduled cohorts. Approximately 20 individuals who completed intake remain on the waitlist 
-          for 2026 services. In partnership with Global Friends in Grand Forks, we extended our reach beyond the 
-          Fargo-Moorhead area, helping an additional 4 clients obtain their driver's licenses.
-        </p>
-      </section>
-
-      {/* Demographics */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Participant Demographics</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving to Success 2025 Annual Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        <div className="grid grid-cols-2 gap-6 mb-6">
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold mb-4 text-center">Gender Distribution</h4>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={demographicData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {demographicData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-            <p className="text-center text-sm text-gray-600 mt-2">64% Female, 36% Male</p>
-          </div>
-
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold mb-4 text-center">Geographic Distribution</h4>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={locationData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="city" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#0088FE" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold mb-4 text-center">Age Distribution</h4>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={ageData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="range" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#00C49F" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold mb-4 text-center">Language Support Provided</h4>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={languageData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="language" type="category" width={80} />
-                <Tooltip />
-                <Bar dataKey="count" fill="#FFBB28" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </section>
-
-      {/* Program Structure */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Structure and Delivery</h3>
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <div className="grid grid-cols-3 gap-6">
-            <div>
-              <h4 className="font-semibold text-lg mb-2 text-blue-600">Cohort Model</h4>
-              <p className="text-gray-700 text-sm">Three cohorts operated throughout 2025, allowing for structured 
-              scheduling with our driving school partner. Coordination around instructor availability required 
-              careful planning to accommodate both participant and instructor schedules.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-lg mb-2 text-blue-600">Training Focus</h4>
-              <p className="text-gray-700 text-sm">6 hours of behind-the-wheel instruction per participant through 
-              Xcell Driving School. The program concentrated resources on this most expensive barrier, with IDC 
-              providing supplemental support for interpretation and coordination.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-lg mb-2 text-blue-600">Language Support</h4>
-              <p className="text-gray-700 text-sm">Comprehensive multilingual services in Somali, Arabic, Swahili, 
-              Dari, Kurdish, and other languages funded through IDC's operational budget to ensure accessibility 
-              for all participants.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Success Stories */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Success Stories</h3>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
         
-        <div className="space-y-4">
-          <div className="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-lg">
-            <h4 className="font-semibold text-lg mb-2">From Abandonment to Independence</h4>
-            <p className="text-gray-700 leading-relaxed">
-              A client who recently moved from Morocco on a fiancé visa found herself abandoned by her husband, 
-              who saw her empowerment as threatening. Referred to IDC by Job Service North Dakota, she received 
-              comprehensive support including immigration paperwork assistance and enrollment in Driving to Success. 
-              She passed her driver's test on the first attempt and secured employment with CVS. Her driver's license 
-              became the foundation for rebuilding her life independently, demonstrating how mobility enables economic 
-              self-sufficiency and personal empowerment.
-            </p>
-          </div>
-
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
-            <h4 className="font-semibold text-lg mb-2">Single Mom Finds Stability</h4>
-            <p className="text-gray-700 leading-relaxed">
-              A single mother who relocated from Arizona with a special needs child faced overwhelming challenges. 
-              Without a license, she couldn't purchase a car, making it nearly impossible to balance work schedules 
-              with her son's medical appointments and basic errands like grocery shopping. After completing 6 hours 
-              of behind-the-wheel training through Driving to Success, she obtained her license and Real ID. IDC helped 
-              her secure a reliable, affordable vehicle. Transportation independence transformed her life, enabling her 
-              to maintain employment, attend all medical appointments, and add a side gig for supplemental income.
-            </p>
-          </div>
-
-          <div className="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-r-lg">
-            <h4 className="font-semibold text-lg mb-2">Overcoming Physical Barriers</h4>
-            <p className="text-gray-700 leading-relaxed">
-              A participant with a hand disability had attempted to obtain her license multiple times without success, 
-              facing frustration at every turn. Our instructor from Xcell Driving School worked creatively to find 
-              adaptive solutions for her specific needs and went the extra mile by advocating for her at the DMV, 
-              helping staff understand her capabilities despite the disability. Through this personalized approach and 
-              dedicated support, she finally obtained her license. This success demonstrates how culturally competent, 
-              patient instruction combined with advocacy can overcome barriers that had previously seemed insurmountable.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Outcomes and Impact */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Outcomes and Impact</h3>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="font-semibold text-lg mb-3">Quantitative Outcomes</h4>
-            <ul className="space-y-2 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>75% success rate in obtaining driver's licenses</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>25 participants obtained licenses through the program</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>33 individuals completed full behind-the-wheel training</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>50+ inquiries received through online intake system</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>4 additional clients served through Grand Forks partnership</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>198 hours of professional instruction delivered</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h4 className="font-semibold text-lg mb-3">Qualitative Outcomes</h4>
-            <ul className="space-y-2 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-blue-600 mr-2">•</span>
-                <span>Increased employment opportunities and job security</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-600 mr-2">•</span>
-                <span>Improved access to healthcare and timely medical appointments</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-600 mr-2">•</span>
-                <span>Enhanced community participation and reduced isolation</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-600 mr-2">•</span>
-                <span>Additional income through gig economy opportunities</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-600 mr-2">•</span>
-                <span>Increased independence and confidence</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Financial Overview */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Financial Overview</h3>
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h4 className="font-semibold mb-3">Program Investment</h4>
-              <table className="w-full text-sm">
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Sanford Health Grant</td>
-                    <td className="py-2 text-right font-semibold">$12,000</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">IDC Supplemental Support</td>
-                    <td className="py-2 text-right font-semibold">$1,035</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Total Program Investment</td>
-                    <td className="py-2 text-right font-semibold">$13,035</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Cost per Licensed Driver</td>
-                    <td className="py-2 text-right font-semibold">$521</td>
-                  </tr>
-                </tbody>
-              </table>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 4px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .header-logo {
+            flex-shrink: 0;
+        }
+        
+        .header-logo img {
+            height: 80px;
+            width: auto;
+        }
+        
+        .header-text {
+            flex-grow: 1;
+        }
+        
+        h1 {
+            color: #1e3a8a;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2563eb;
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            color: #1e3a8a;
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        h4 {
+            color: #2563eb;
+            font-size: 16px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 20px;
+            margin-top: 5px;
+        }
+        
+        .organization {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .executive-summary {
+            background: #eff6ff;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-number.blue { color: #2563eb; }
+        .stat-number.green { color: #16a34a; }
+        .stat-number.purple { color: #9333ea; }
+        .stat-number.orange { color: #ea580c; }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .content-section {
+            margin: 30px 0;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .chart-container {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .chart-title {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1e3a8a;
+        }
+        
+        canvas {
+            max-height: 300px;
+        }
+        
+        .success-story {
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+        
+        .success-story.green {
+            background: #f0fdf4;
+            border-left-color: #16a34a;
+        }
+        
+        .success-story.blue {
+            background: #eff6ff;
+            border-left-color: #2563eb;
+        }
+        
+        .success-story.purple {
+            background: #faf5ff;
+            border-left-color: #9333ea;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .content-box {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        .checkmark {
+            color: #16a34a;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .bullet {
+            color: #2563eb;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .partnership-box {
+            background: #eff6ff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .conclusion {
+            background: #1e40af;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .conclusion h2 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        .goals-box {
+            background: linear-gradient(to right, #eff6ff, #f0fdf4);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .arrow {
+            color: #2563eb;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-logo img {
+                height: 60px;
+            }
+            
+            .chart-grid,
+            .two-column,
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <img src="data:image/png;base64,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" alt="Immigrant Development Center Logo">
             </div>
-            <div>
-              <h4 className="font-semibold mb-3">Fund Allocation</h4>
-              <table className="w-full text-sm">
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Behind-the-Wheel Instruction</td>
-                    <td className="py-2 text-right font-semibold">$12,000</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Program Coordination (IDC)</td>
-                    <td className="py-2 text-right font-semibold">$635</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Interpretation Services (IDC)</td>
-                    <td className="py-2 text-right font-semibold">$400</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 text-gray-700">Participants Served</td>
-                    <td className="py-2 text-right font-semibold">33</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p className="text-xs text-gray-600 mt-2">*Full market rate of $395 per participant paid to Xcell Driving School</p>
+            <div class="header-text">
+                <h1>Driving to Success</h1>
+                <div class="subtitle">2025 Annual Program Report</div>
+                <div class="organization">Immigrant Development Center</div>
             </div>
-          </div>
         </div>
-      </section>
 
-      {/* Partnerships */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Strategic Partnerships</h3>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          The success of the 2025 Driving to Success program was made possible through strong community partnerships:
-        </p>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2">Sanford Health</h4>
-            <p className="text-sm text-gray-700">Primary funding partner providing $12,000 grant support</p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2">Xcell Driving School</h4>
-            <p className="text-sm text-gray-700">Exclusive instruction partner delivering all 198 hours of behind-the-wheel training</p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2">Global Friends</h4>
-            <p className="text-sm text-gray-700">Regional partnership serving 4 additional clients in Grand Forks</p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2">Job Service ND</h4>
-            <p className="text-sm text-gray-700">Referral partner connecting clients to comprehensive services</p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2">Fix It Forward</h4>
-            <p className="text-sm text-gray-700">Planned 2026 partnership for vehicle maintenance training component</p>
-          </div>
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>
+                The 2025 Driving to Success program achieved remarkable outcomes in addressing transportation barriers 
+                for New Americans in the Fargo-Moorhead region. With generous support from Sanford Health's $12,000 
+                investment, the program focused exclusively on behind-the-wheel instruction, the most critical and 
+                cost-prohibitive barrier to licensing. We successfully served 33 participants through three cohorts, 
+                while approximately 20 individuals who completed intake remain on the waitlist for 2026 services.
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number blue">50+</div>
+                    <div class="stat-label">Inquiries Received</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number green">33</div>
+                    <div class="stat-label">Completed Training</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number purple">75%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number orange">~20</div>
+                    <div class="stat-label">On Waitlist</div>
+                </div>
+            </div>
         </div>
-      </section>
 
-      {/* Looking Forward */}
-      <section className="mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Looking Forward: 2026 Goals</h3>
-        <div className="bg-gradient-to-r from-blue-50 to-green-50 p-6 rounded-lg">
-          <p className="text-gray-700 leading-relaxed mb-4">
-            Building on the success of 2025, the Driving to Success program aims to expand capacity and deepen impact:
-          </p>
-          <ul className="space-y-2 text-gray-700">
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2 font-bold">→</span>
-              <span>Serve the 20 participants currently on waitlist from 2025</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2 font-bold">→</span>
-              <span>Partner with additional driving instructors to reduce scheduling constraints</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2 font-bold">→</span>
-              <span>Launch partnership with Fix It Forward to add first-level vehicle maintenance training</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2 font-bold">→</span>
-              <span>Connect participants with resources for obtaining low-cost, reliable vehicles</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2 font-bold">→</span>
-              <span>Expand regional partnerships to serve communities beyond Fargo-Moorhead</span>
-            </li>
-          </ul>
+        <!-- Program Overview -->
+        <div class="content-section">
+            <h2>Program Overview</h2>
+            <p>
+                The Driving to Success program addresses one of the most significant barriers to economic self-sufficiency 
+                for immigrant communities: transportation. In 2025, the program focused exclusively on behind-the-wheel 
+                instruction, the most expensive and difficult-to-access component of driver training. Operating three cohorts 
+                throughout the year, we partnered with Xcell Driving School to provide professional instruction with 
+                multilingual support.
+            </p>
+            <p>
+                Each participant received 6 hours of professional behind-the-wheel instruction at the full market rate of 
+                $395 per person, with Sanford Health's funding covering this critical expense. IDC supplemented the program 
+                with administrative support, interpreter services, and coordination costs from organizational resources.
+            </p>
+            <p>
+                The program received over 50 online inquiries through our intake system, with 33 participants completing 
+                training through scheduled cohorts. Approximately 20 individuals who completed intake remain on the waitlist 
+                for 2026 services. In partnership with Global Friends in Grand Forks, we extended our reach beyond the 
+                Fargo-Moorhead area, helping an additional 4 clients obtain their driver's licenses.
+            </p>
         </div>
-      </section>
 
-      {/* Conclusion */}
-      <section className="mb-8 bg-blue-600 text-white p-6 rounded-lg">
-        <h3 className="text-2xl font-bold mb-4">Conclusion</h3>
-        <p className="leading-relaxed">
-          The 2025 Driving to Success program demonstrated that removing transportation barriers creates transformative 
-          opportunities for New Americans. With a 75% success rate and 25 newly licensed drivers, the program proved 
-          that strategic investment in behind-the-wheel instruction—the most expensive barrier to licensing—directly 
-          enables economic self-sufficiency, community integration, and family stability. The partnership with Sanford 
-          Health made this impact possible. Working exclusively with Xcell Driving School allowed us to deliver consistent, 
-          quality instruction, though scheduling challenges highlighted the need for expanded instructor partnerships in 
-          2026. Looking ahead, our planned collaboration with Fix It Forward will extend support beyond licensing to 
-          include vehicle maintenance skills and connections to affordable, reliable vehicles—completing the full spectrum 
-          of transportation independence.
-        </p>
-      </section>
+        <!-- Demographics -->
+        <div class="content-section">
+            <h2>Participant Demographics</h2>
+            
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Gender Distribution</div>
+                    <canvas id="genderChart"></canvas>
+                    <p style="text-align: center; margin-top: 10px; color: #64748b; font-size: 14px;">
+                        64% Female, 36% Male
+                    </p>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Geographic Distribution</div>
+                    <canvas id="locationChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Age Distribution</div>
+                    <canvas id="ageChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Language Support Provided</div>
+                    <canvas id="languageChart"></canvas>
+                </div>
+            </div>
+        </div>
 
-      {/* Footer */}
-      <div className="text-center text-gray-500 text-sm border-t pt-4">
-        <p>Immigrant Development Center | 725 Center Ave Ste 1, Moorhead, MN 56560</p>
-        <p>contact@immigrantdevelopmentcenter.org | (218) 284-8020</p>
-      </div>
+        <!-- Program Structure -->
+        <div class="content-section">
+            <h2>Program Structure and Delivery</h2>
+            <div class="content-box">
+                <div class="three-column">
+                    <div>
+                        <h4>Cohort Model</h4>
+                        <p style="font-size: 14px;">
+                            Three cohorts operated throughout 2025, allowing for structured scheduling with our driving 
+                            school partner. Coordination around instructor availability required careful planning to 
+                            accommodate both participant and instructor schedules.
+                        </p>
+                    </div>
+                    <div>
+                        <h4>Training Focus</h4>
+                        <p style="font-size: 14px;">
+                            6 hours of behind-the-wheel instruction per participant through Xcell Driving School. The 
+                            program concentrated resources on this most expensive barrier, with IDC providing supplemental 
+                            support for interpretation and coordination.
+                        </p>
+                    </div>
+                    <div>
+                        <h4>Language Support</h4>
+                        <p style="font-size: 14px;">
+                            Comprehensive multilingual services in Somali, Arabic, Swahili, Dari, Kurdish, and other 
+                            languages funded through IDC's operational budget to ensure accessibility for all participants.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Stories -->
+        <div class="content-section">
+            <h2>Success Stories</h2>
+            
+            <div class="success-story green">
+                <h4>From Abandonment to Independence</h4>
+                <p>
+                    A client who recently moved from Morocco on a fiancé visa found herself abandoned by her husband, 
+                    who saw her empowerment as threatening. Referred to IDC by Job Service North Dakota, she received 
+                    comprehensive support including immigration paperwork assistance and enrollment in Driving to Success. 
+                    She passed her driver's test on the first attempt and secured employment with CVS. Her driver's license 
+                    became the foundation for rebuilding her life independently, demonstrating how mobility enables economic 
+                    self-sufficiency and personal empowerment.
+                </p>
+            </div>
+
+            <div class="success-story blue">
+                <h4>Single Mom Finds Stability</h4>
+                <p>
+                    A single mother who relocated from Arizona with a special needs child faced overwhelming challenges. 
+                    Without a license, she couldn't purchase a car, making it nearly impossible to balance work schedules 
+                    with her son's medical appointments and basic errands like grocery shopping. After completing 6 hours 
+                    of behind-the-wheel training through Driving to Success, she obtained her license and Real ID. IDC helped 
+                    her secure a reliable, affordable vehicle. Transportation independence transformed her life, enabling her 
+                    to maintain employment, attend all medical appointments, and add a side gig for supplemental income.
+                </p>
+            </div>
+
+            <div class="success-story purple">
+                <h4>Overcoming Physical Barriers</h4>
+                <p>
+                    A participant with a hand disability had attempted to obtain her license multiple times without success, 
+                    facing frustration at every turn. Our instructor from Xcell Driving School worked creatively to find 
+                    adaptive solutions for her specific needs and went the extra mile by advocating for her at the DMV, 
+                    helping staff understand her capabilities despite the disability. Through this personalized approach and 
+                    dedicated support, she finally obtained her license. This success demonstrates how culturally competent, 
+                    patient instruction combined with advocacy can overcome barriers that had previously seemed insurmountable.
+                </p>
+            </div>
+        </div>
+
+        <!-- Outcomes and Impact -->
+        <div class="content-section">
+            <h2>Outcomes and Impact</h2>
+            <div class="two-column">
+                <div class="content-box">
+                    <h3>Quantitative Outcomes</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li><span class="checkmark">✓</span> 75% success rate in obtaining driver's licenses</li>
+                        <li><span class="checkmark">✓</span> 25 participants obtained licenses through the program</li>
+                        <li><span class="checkmark">✓</span> 33 individuals completed full behind-the-wheel training</li>
+                        <li><span class="checkmark">✓</span> 50+ inquiries received through online intake system</li>
+                        <li><span class="checkmark">✓</span> 4 additional clients served through Grand Forks partnership</li>
+                        <li><span class="checkmark">✓</span> 198 hours of professional instruction delivered</li>
+                    </ul>
+                </div>
+
+                <div class="content-box">
+                    <h3>Qualitative Outcomes</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li><span class="bullet">•</span> Increased employment opportunities and job security</li>
+                        <li><span class="bullet">•</span> Improved access to healthcare and timely medical appointments</li>
+                        <li><span class="bullet">•</span> Enhanced community participation and reduced isolation</li>
+                        <li><span class="bullet">•</span> Additional income through gig economy opportunities</li>
+                        <li><span class="bullet">•</span> Increased independence and confidence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Overview -->
+        <div class="content-section">
+            <h2>Financial Overview</h2>
+            <div class="content-box">
+                <div class="two-column">
+                    <div>
+                        <h4>Program Investment</h4>
+                        <table>
+                            <tr>
+                                <td>Sanford Health Grant</td>
+                                <td class="text-right font-semibold">$12,000</td>
+                            </tr>
+                            <tr>
+                                <td>IDC Supplemental Support</td>
+                                <td class="text-right font-semibold">$1,035</td>
+                            </tr>
+                            <tr>
+                                <td>Total Program Investment</td>
+                                <td class="text-right font-semibold">$13,035</td>
+                            </tr>
+                            <tr>
+                                <td>Cost per Licensed Driver</td>
+                                <td class="text-right font-semibold">$521</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h4>Fund Allocation</h4>
+                        <table>
+                            <tr>
+                                <td>Behind-the-Wheel Instruction</td>
+                                <td class="text-right font-semibold">$12,000</td>
+                            </tr>
+                            <tr>
+                                <td>Program Coordination (IDC)</td>
+                                <td class="text-right font-semibold">$635</td>
+                            </tr>
+                            <tr>
+                                <td>Interpretation Services (IDC)</td>
+                                <td class="text-right font-semibold">$400</td>
+                            </tr>
+                            <tr>
+                                <td>Participants Served</td>
+                                <td class="text-right font-semibold">33</td>
+                            </tr>
+                        </table>
+                        <p style="font-size: 12px; color: #64748b; margin-top: 10px;">
+                            *Full market rate of $395 per participant paid to Xcell Driving School
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partnerships -->
+        <div class="content-section">
+            <h2>Strategic Partnerships</h2>
+            <p>
+                The success of the 2025 Driving to Success program was made possible through strong community partnerships:
+            </p>
+            <div class="three-column">
+                <div class="partnership-box">
+                    <h4>Sanford Health</h4>
+                    <p style="font-size: 14px;">Primary funding partner providing $12,000 grant support</p>
+                </div>
+                <div class="partnership-box">
+                    <h4>Xcell Driving School</h4>
+                    <p style="font-size: 14px;">Exclusive instruction partner delivering all 198 hours of behind-the-wheel training</p>
+                </div>
+                <div class="partnership-box">
+                    <h4>Global Friends</h4>
+                    <p style="font-size: 14px;">Regional partnership serving 4 additional clients in Grand Forks</p>
+                </div>
+                <div class="partnership-box">
+                    <h4>Job Service ND</h4>
+                    <p style="font-size: 14px;">Referral partner connecting clients to comprehensive services</p>
+                </div>
+                <div class="partnership-box">
+                    <h4>Fix It Forward</h4>
+                    <p style="font-size: 14px;">Planned 2026 partnership for vehicle maintenance training component</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Looking Forward -->
+        <div class="content-section">
+            <h2>Looking Forward: 2026 Goals</h2>
+            <div class="goals-box">
+                <p>
+                    Building on the success of 2025, the Driving to Success program aims to expand capacity and deepen impact:
+                </p>
+                <ul style="list-style: none; padding-left: 0; margin-top: 15px;">
+                    <li><span class="arrow">→</span> Serve the 20 participants currently on waitlist from 2025</li>
+                    <li><span class="arrow">→</span> Partner with additional driving instructors to reduce scheduling constraints</li>
+                    <li><span class="arrow">→</span> Launch partnership with Fix It Forward to add first-level vehicle maintenance training</li>
+                    <li><span class="arrow">→</span> Connect participants with resources for obtaining low-cost, reliable vehicles</li>
+                    <li><span class="arrow">→</span> Expand regional partnerships to serve communities beyond Fargo-Moorhead</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="conclusion">
+            <h2>Conclusion</h2>
+            <p>
+                The 2025 Driving to Success program demonstrated that removing transportation barriers creates transformative 
+                opportunities for New Americans. With a 75% success rate and 25 newly licensed drivers, the program proved 
+                that strategic investment in behind-the-wheel instruction—the most expensive barrier to licensing—directly 
+                enables economic self-sufficiency, community integration, and family stability. The partnership with Sanford 
+                Health made this impact possible. Working exclusively with Xcell Driving School allowed us to deliver consistent, 
+                quality instruction, though scheduling challenges highlighted the need for expanded instructor partnerships in 
+                2026. Looking ahead, our planned collaboration with Fix It Forward will extend support beyond licensing to 
+                include vehicle maintenance skills and connections to affordable, reliable vehicles—completing the full spectrum 
+                of transportation independence.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Immigrant Development Center</strong></p>
+            <p>725 Center Ave Ste 1, Moorhead, MN 56560</p>
+            <p>contact@immigrantdevelopmentcenter.org | (218) 284-8020</p>
+            <p>www.immigrantdevelopmentcenter.org</p>
+        </div>
     </div>
-  );
-};
 
-export default DrivingSuccessReport;
+    <script>
+        // Gender Distribution Chart
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Female', 'Male'],
+                datasets: [{
+                    data: [32, 18],
+                    backgroundColor: ['#0088FE', '#00C49F']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Location Distribution Chart
+        const locationCtx = document.getElementById('locationChart').getContext('2d');
+        new Chart(locationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Fargo', 'Moorhead', 'West Fargo'],
+                datasets: [{
+                    label: 'Participants',
+                    data: [32, 13, 5],
+                    backgroundColor: '#0088FE'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Age Distribution Chart
+        const ageCtx = document.getElementById('ageChart').getContext('2d');
+        new Chart(ageCtx, {
+            type: 'bar',
+            data: {
+                labels: ['16-25', '26-35', '36-45', '46-55', '56+'],
+                datasets: [{
+                    label: 'Participants',
+                    data: [8, 18, 16, 5, 3],
+                    backgroundColor: '#00C49F'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Language Distribution Chart
+        const languageCtx = document.getElementById('languageChart').getContext('2d');
+        new Chart(languageCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Somali', 'Arabic', 'Swahili', 'English', 'Dari', 'Other'],
+                datasets: [{
+                    label: 'Participants',
+                    data: [12, 10, 8, 8, 5, 7],
+                    backgroundColor: '#FFBB28'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
