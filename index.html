@@ -33,7 +33,8 @@
             padding-bottom: 20px;
             margin-bottom: 30px;
             display: flex;
-            align-items: center;
+            flex-direction: row;
+            align-items: flex-start;
             gap: 30px;
         }
         
@@ -44,10 +45,12 @@
         .header-logo img {
             height: 80px;
             width: auto;
+            display: block;
         }
         
         .header-text {
             flex-grow: 1;
+            padding-top: 10px;
         }
         
         h1 {
